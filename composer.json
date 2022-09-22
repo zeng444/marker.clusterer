@@ -1,0 +1,38 @@
+{
+    "name": "janfish/marker-cluster",
+    "description": "marker cluster",
+    "license": "Apache-2.0",
+    "authors": [
+        {
+            "name": "robert",
+            "email": "zeng444@163.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Janfish\\MarkerCluster\\": "src/"
+        }
+    },
+    "minimum-stability": "dev",
+    "require": {
+        "php": ">=8.0",
+        "ext-json": "*",
+    },
+    "require-dev": {
+        "friendsofphp/php-cs-fixer": "^3.0",
+        "phpstan/phpstan": "^0.12"
+    },
+    "repositories": {
+        "packagist": {
+            "type": "composer",
+            "url": "https://mirrors.aliyun.com/composer/"
+        }
+    },
+    "scripts": {
+        "demo": [
+            "php demo/c.php"
+        ],
+        "analyse": "phpstan analyse --memory-limit 1024M -l 0 ./src",
+        "cs-fix": "php-cs-fixer fix $1"
+    }
+}
