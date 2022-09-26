@@ -158,23 +158,4 @@ class MarkerClusterer
         return $currentCluster;
     }
 
-
-    /**
-     * @return array
-     */
-    public function getResult(): array
-    {
-        $result = [];
-        foreach ($this->getClusters() as $cluster) {
-            $center = $this->averageCenter ? $cluster->getCenter() : current($cluster->getMakers());
-            $item['center'] = $center->getPosition();
-            $positions = $cluster->getMakers();
-            $item['positions'] = [];
-            foreach ($positions as $position) {
-                $item['positions'][] = $position->getPosition();
-            }
-            $result[] = $item;
-        }
-        return $result;
-    }
 }
