@@ -1,71 +1,22 @@
 <?php
+
 declare(strict_types=1);
 
-namespace Janfish\MarkerCluster\OverLayer;
+namespace Janfish\MarkerClusterer\OverLayer;
 
 /**
  * Author:Robert
  *
  * Class Maker
- * @package Janfish\MarkerCluster
+ * @package Janfish\MarkerClusterer
  */
-class Maker
+class Maker extends OverLayer
 {
     /**
-     * @var float
-     */
-    public $lat;
-
-    /**
-     * @var float
-     */
-    public $lng;
-
-    /**
-     * @var bool 
+     * @var bool
      */
     private $isInCluster = false;
 
-
-    /**
-     * @param float $lng
-     * @param float $lat
-     */
-    public function __construct(float $lng, float $lat)
-    {
-        $this->lat = $lat;
-        $this->lng = $lng;
-    }
-
-    /**
-     * Author:Robert
-     *
-     * @return string
-     */
-    public function getPosition(): string
-    {
-        return $this->lng.','.$this->lat;
-    }
-
-    /**
-     * Author:Robert
-     *
-     * @return float
-     */
-    public function getLat(): float
-    {
-        return $this->lat;
-    }
-
-    /**
-     * Author:Robert
-     *
-     * @return float
-     */
-    public function getLng(): float
-    {
-        return $this->lng;
-    }
 
     /**
      * Author:Robert
@@ -77,8 +28,11 @@ class Maker
         return $this->isInCluster;
     }
 
-    public function setCluster(): bool
+    /**
+     * @return void
+     */
+    public function setCluster()
     {
-         $this->isInCluster = true;
+        $this->isInCluster = true;
     }
 }

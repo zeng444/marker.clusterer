@@ -1,5 +1,5 @@
 {
-    "name": "janfish/marker-cluster",
+    "name": "janfish/marker-clusterer",
     "description": "marker cluster",
     "license": "Apache-2.0",
     "authors": [
@@ -10,13 +10,14 @@
     ],
     "autoload": {
         "psr-4": {
-            "Janfish\\MarkerCluster\\": "src/"
+            "Janfish\\MarkerClusterer\\": "src/"
         }
     },
     "minimum-stability": "dev",
     "require": {
-        "php": ">=8.0",
-        "ext-json": "*",
+        "php": ">=7.1",
+        "ext-bcmath": "*",
+        "ext-json": "*"
     },
     "require-dev": {
         "friendsofphp/php-cs-fixer": "^3.0",
@@ -30,7 +31,7 @@
     },
     "scripts": {
         "demo": [
-            "php demo/c.php"
+            "php demo/Test.php"
         ],
         "analyse": "phpstan analyse --memory-limit 1024M -l 0 ./src",
         "cs-fix": "php-cs-fixer fix $1"

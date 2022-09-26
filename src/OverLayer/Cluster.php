@@ -1,54 +1,75 @@
 <?php
+
 declare(strict_types=1);
 
-namespace Janfish\MarkerCluster\OverLayer;
+namespace Janfish\MarkerClusterer\OverLayer;
+
+use Janfish\MarkerClusterer\Util\Helper;
 
 /**
  * Author:Robert
  *
  * Class Cluster
- * @package Janfish\MarkerCluster\OverLayer
+ * @package Janfish\MarkerClusterer\OverLayer
  */
-class Cluster
+class Cluster extends OverLayer
 {
-
     /**
-     * @var float
-     */
-    public $lat;
-
-    /**
-     * @var float
-     */
-    public $lng;
-
-    /**
-     * @var
-     */
-    public $gridSize;
-
-    /**
-     * @var array
+     * @var  Maker[]
      */
     private $maker = [];
 
+    protected $gridSize;
+
+    protected $markerCount = 0;
+
     /**
-     *
+     * @param float $lng
+     * @param float $lat
+     * @param array $extend
+     * @param int $gridSize
      */
-    public function __construct(array $options)
+    public function __construct(float $lng, float $lat, array $extend, int $gridSize)
     {
-        $this->gridSize = $options['gridSize'];
+        parent::__construct($lng, $lat, []);
+        $this->addMaker(new Maker($lng, $lat, $extend));
+        $this->gridSize = $gridSize;
+    }
+
+    /**
+     * @return Maker
+     */
+    public function getCenter(): Maker
+    {
+        $lat = 0;
+        $lng = 0;
+        foreach ($this->maker as $maker) {
+            $lat += $maker->getLat();
+            $lng += $maker->getLng();
+        }
+        return new Maker(round($lng / $this->markerCount, 6), round($lat / $this->markerCount, 6), []);
+    }
+
+    /**
+     * @param Maker $maker
+     * @param bool $countOnly
+     * @return void
+     */
+    public function addMaker(Maker $maker, bool $countOnly = false)
+    {
+        if (!$countOnly) {
+            $this->maker[] = $maker;
+        }
+        ++$this->markerCount;
     }
 
 
-    public function getCenter(): string
+    /**
+     * @return int
+     */
+    public function getMakerCount(): int
     {
-
-    }
-
-    public function addMaker(Maker $maker)
-    {
-        $this->maker[] = $maker;
+        return $this->markerCount;
     }
 
     /**
@@ -60,19 +81,18 @@ class Cluster
      */
     public function inGrid(Maker $maker): bool
     {
-        $location = $maker->getPosition();
         $center = $this->getCenter();
-        return true;
+        $distance = Helper::getDistance($center->getPosition(), $maker->getPosition());
+        return $distance <= sqrt(bcpow((string)$this->gridSize, '2') * 2);
+//        [x1, y1, x2, y2]  //其中 (x1, y1) 为左下角的坐标，(x2, y2) 是右上角的坐标
+//        (x4-x1)*(x3-x2) < 0 且 (y4-y1)*(y3-y2) < 0
     }
 
     /**
-     * Author:Robert
-     *
-     * @return iterable
+     * @return Maker[]
      */
-    public function getMakers(): iterable
+    public function getMakers(): array
     {
         return $this->maker;
     }
-
 }
